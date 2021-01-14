@@ -1,6 +1,7 @@
 <template>
   <h3>Créer une tâche</h3>
-  <form>
+  <form @submit.prevent="createTask"><!-- "@submit" -> Raccourcie pour écouter les événements -->  <!-- v-on:submit="createTask" -->
+    <!-- pour que tout la page soit rechargé, j'utilise : @submit.prevent="createTask"-->
     <input type="text" v-model="name" placeholder="Nom de la tâche" /><br />
     <!-- v-model pour récupérer le contenu que l'utilisateur entre dans l'input-->
     <textarea
@@ -8,9 +9,14 @@
       rows="10"
       v-model="description"
       placeholder="Description de la tâche"
-    ></textarea><br>
+    ></textarea
+    ><br />
     <select v-model="temporality">
-      <option v-for="tempo in temporalityTypes" :value="tempo.value" :key="tempo.id">
+      <option
+        v-for="tempo in temporalityTypes"
+        :value="tempo.value"
+        :key="tempo.id"
+      >
         {{ tempo.name }}
       </option></select
     ><br />
@@ -19,7 +25,6 @@
     <button>Créer</button>
   </form>
 </template>
-
 <script>
 import { ref } from "vue";
 
@@ -48,15 +53,35 @@ export default {
     ]);
     const temporality = ref(""); //variable qui récupère ce qui est selectionné par l'utilisateur
 
+    function createTask(){ //Comme on utilise la composition API, on a pas besoin de créer une propriété méthode qui comprendre notre fonction createTask()
+        const task = {
+            id: Date.now(), //provisoire 
+            name: name.value, //".value" pour récupérer la saisie de l'utilisateur
+            description: description.value,
+            temporality: temporality.value,
+        };
+        console.log('task', task); 
+        resetForm(); //Pas besoin de .this comme dans Vue 2 car on est dans la méthode setup() car elle est déclaré au même niveau que la fonction createTask()
+    }
+
+    function resetForm(){
+        name.value = "";
+        description.value = "";
+        temporality.value ="";
+    }
+
     //return { name: name, description: description, } // Utilisation de la forme raccourcie ci-dessous
-    return { name, description, temporalityTypes, temporality };
+    return { name, description, temporalityTypes, temporality, createTask }; //j'exporte createTask() également pour qu'elle soit accessible dans le template
   },
 };
 </script>
 
 <style>
-input, textarea, select, button{
-    width: 90%;
-    margin: 5px 10px;
+input,
+textarea,
+select,
+button {
+  width: 90%;
+  margin: 5px 10px;
 }
 </style>
