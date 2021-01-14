@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-
+//ce service worker permet de rendre accesible l'application sans qu'on ait internet, car ce fichier a pour but de mettre en cache les éléments.
 import { register } from "register-service-worker";
 
 if (process.env.NODE_ENV === "production") {
