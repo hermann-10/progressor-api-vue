@@ -2,7 +2,7 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
     <HelloWorld msg="Vue.js App : Progressor (compo API)" />
-    <Form />
+    <Form @createTask="addTask" /> <!-- "@" car on écoute l'événement createTask définit dans Form.vue, lorsque l'emission de cet événement arrive, on appel la fonction addTask -->
   </div>
 </template>
 
@@ -17,5 +17,13 @@ export default {
     HelloWorld,
     Form,
   },
+  setup(){
+    function addTask(data){
+      console.log('Home.vue | addTask()', data);
+    }
+
+    //Pour utiliser addTask dans le template, il faut bien penser à retourner un objet qui comporte une propriété addTask
+    return { addTask };
+  }
 };
 </script>

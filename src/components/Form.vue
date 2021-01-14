@@ -30,8 +30,9 @@ import { ref } from "vue";
 
 export default {
   name: "Form",
+  emits : ["createTask"], //Ajout d'une propriété -> emits : [], où on indique la donnée qu'on souhaite émettre à savoir createTask
   //lier les choses côté JS et côté HTML avec le méthode setup()
-  setup() {
+  setup(props, context) {
     const name = ref("");
     const description = ref("");
     const temporalityTypes = ref([
@@ -61,6 +62,7 @@ export default {
             temporality: temporality.value,
         };
         console.log('task', task); 
+        context.emit('createTask', task); //Ce payload "task" qui représente la nouvelle tâche
         resetForm(); //Pas besoin de .this comme dans Vue 2 car on est dans la méthode setup() car elle est déclaré au même niveau que la fonction createTask()
     }
 
