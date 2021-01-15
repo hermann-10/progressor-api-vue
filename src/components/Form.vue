@@ -4,7 +4,7 @@
     <!-- "@submit" -> Raccourcie pour écouter les événements -->
     <!-- v-on:submit="createTask" -->
     <!-- pour que tout la page soit rechargé, j'utilise : @submit.prevent="createTask"-->
-    <input type="text" v-model="name" placeholder="Nom de la tâche" /><br />
+    <input type="text" v-model="name" placeholder="Nom de la tâche" ref="txtName" /><br />
     <!-- v-model pour récupérer le contenu que l'utilisateur entre dans l'input-->
     <textarea
       cols="30"
@@ -28,7 +28,7 @@
   </form>
 </template>
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 export default {
   name: "Form",
@@ -55,6 +55,7 @@ export default {
       }
     ]);
     const temporality = ref(""); //variable qui récupère ce qui est selectionné par l'utilisateur
+    let txtName = ref(null);
 
     function createTask() {
       //Comme on utilise la composition API, on a pas besoin de créer une propriété méthode qui comprendre notre fonction createTask()
@@ -73,10 +74,15 @@ export default {
       name.value = "";
       description.value = "";
       temporality.value = "";
+      txtName.value.focus();
     }
 
+    onMounted(() => {
+     txtName.value.focus();
+    });
+
     //return { name: name, description: description, } // Utilisation de la forme raccourcie ci-dessous
-    return { name, description, temporalityTypes, temporality, createTask }; //j'exporte createTask() également pour qu'elle soit accessible dans le template
+    return { name, description, temporalityTypes, temporality, createTask, txtName }; //j'exporte createTask() également pour qu'elle soit accessible dans le template
   }
 };
 </script>
