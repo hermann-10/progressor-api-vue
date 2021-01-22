@@ -1,4 +1,6 @@
 <template>
+  <input type="text" placeholder="filtrer" v-model="letters" @keyup="filter" />
+  <!-- Two way binding -->
   <h3>Toutes les tâches</h3>
   <div v-if="tasks.length > 0">
     <div class="task" v-for="task in tasks" :key="task.id">
@@ -16,13 +18,35 @@ export default {
   name: "Tasks",
   setup() {
     const tasks = ref([]);
+    const letters = ref("");
     tasks.value = tasksService.read();
+    const tasksFiltered = ref([]);
+    filter();
 
     function convertCase(temporality) {
       return tasksService.convertCase(temporality);
     }
 
-    return { tasks, convertCase };
+    function filter() {
+      //console.log(letters.value);
+     if (letters.value.length === 0) {
+        console.log('tasks.value', tasks.value);
+        tasksFiltered.value = tasks.value;
+      } else {
+        tasksFiltered.value = tasks.value.filter( (t) =>
+          t.name.toLocaleLowerCase().includes(letters.value.toLocaleLowerCase())
+        );
+      }
+       /*
+      if (selectedTemporality.value !== "") {
+        tasksFiltered.value = tasksFiltered.value.filter(
+          (t) => t.temporality === selectedTemporality.value
+        );
+      }*/
+    }
+
+    //return { tasks,letters, tasksFiltered, convertCase, filter };
+    return { tasks,tasksFiltered, convertCase, letters, filter }; //On rend ici les éléments crés accesibles au template
   }
 };
 </script>

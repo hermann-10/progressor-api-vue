@@ -4,7 +4,12 @@
     <!-- "@submit" -> Raccourcie pour écouter les événements -->
     <!-- v-on:submit="createTask" -->
     <!-- pour que tout la page soit rechargé, j'utilise : @submit.prevent="createTask"-->
-    <input type="text" v-model="name" placeholder="Nom de la tâche" ref="txtName" /><br />
+    <input
+      type="text"
+      v-model="name"
+      placeholder="Nom de la tâche"
+      ref="txtName"
+    /><br />
     <!-- v-model pour récupérer le contenu que l'utilisateur entre dans l'input-->
     <textarea
       cols="30"
@@ -78,11 +83,18 @@ export default {
     }
 
     onMounted(() => {
-     txtName.value.focus();
+      txtName.value.focus();
     });
 
     //return { name: name, description: description, } // Utilisation de la forme raccourcie ci-dessous
-    return { name, description, temporalityTypes, temporality, createTask, txtName }; //j'exporte createTask() également pour qu'elle soit accessible dans le template
+    return {
+      name,
+      description,
+      temporalityTypes,
+      temporality,
+      createTask,
+      txtName
+    }; //j'exporte createTask() également pour qu'elle soit accessible dans le template
   }
 };
 </script>
