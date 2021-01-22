@@ -1,6 +1,23 @@
 <template>
-  <input type="text" placeholder="Filtrer" v-model="letters" @keyup="filter" />
-  <!-- Two way binding -->
+  <input type="text" placeholder="Filtrer" v-model="letters" @keyup="filter" />   <!-- Two way binding -->
+  <div class="radio-filters">
+    <label for="all">
+      <input type="radio" id="all" value="" v-model="selectedTemporality">Toutes 
+    </label>
+
+    <label for="short-term">
+      <input type="radio" id="short-term" value="short-term" v-model="selectedTemporality">Court terme
+    </label>
+
+    <label for="medium-term">
+      <input type="radio" id="medium-term" value="medium-term" v-model="selectedTemporality">Moyen terme
+    </label>
+
+    <label for="long-term">
+      <input type="radio" id="long-term" value="long-term" v-model="selectedTemporality">Long terme
+    </label>
+
+  </div>
   <h3>Toutes les tâches</h3>
   <div v-show="tasksFiltered.length > 0">
     <div class="task" v-for="task in tasksFiltered" :key="task.id">
@@ -19,6 +36,7 @@ export default {
   setup() {
     const tasks = ref([]);
     const letters = ref("");
+    const selectedTemporality = ref("");
     tasks.value = tasksService.read();
     const tasksFiltered = ref([]);
     filter();
@@ -46,7 +64,7 @@ export default {
     }
 
     //return { tasks,letters, tasksFiltered, convertCase, filter };
-    return { tasks,tasksFiltered, convertCase, letters, filter }; //On rend ici les éléments crés accesibles au template
+    return { tasks,tasksFiltered, convertCase, letters, selectedTemporality, filter }; //On rend ici les éléments crés accesibles au template
   }
 };
 </script>
@@ -56,5 +74,10 @@ export default {
   margin: 10px 15px;
   border: 3px solid #42b983;
   border-radius: 5px;
+}
+
+.radio-filters{
+  display: flex;
+  justify-content: center;
 }
 </style>
