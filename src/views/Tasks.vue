@@ -29,12 +29,12 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import tasksService from "@/services/tasks.js";
 export default {
   name: "Tasks",
   setup() {
-    const tasks = ref([]);
+    const tasks = ref([]); //on bind avec ref()
     const letters = ref("");
     const selectedTemporality = ref("");
     tasks.value = tasksService.read();
@@ -55,13 +55,23 @@ export default {
           t.name.toLocaleLowerCase().includes(letters.value.toLocaleLowerCase())
         );
       }
-       /*
+       
       if (selectedTemporality.value !== "") {
         tasksFiltered.value = tasksFiltered.value.filter(
           (t) => t.temporality === selectedTemporality.value
         );
-      }*/
+      }
     }
+
+    watch(selectedTemporality, (newValue, oldValue) => {
+      console.log('newValue: ', newValue, '|' ,'oldValue: ', oldValue);
+      if(newValue !== ''){
+        filter(); 
+      } else {
+        tasksFiltered.value = tasks.value;
+        filter();
+      }
+    });
 
     //return { tasks,letters, tasksFiltered, convertCase, filter };
     return { tasks,tasksFiltered, convertCase, letters, selectedTemporality, filter }; //On rend ici les éléments crés accesibles au template
