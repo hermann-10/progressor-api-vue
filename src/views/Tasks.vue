@@ -1,9 +1,9 @@
 <template>
-  <input type="text" placeholder="filtrer" v-model="letters" @keyup="filter" />
+  <input type="text" placeholder="Filtrer" v-model="letters" @keyup="filter" />
   <!-- Two way binding -->
   <h3>Toutes les tâches</h3>
-  <div v-if="tasks.length > 0">
-    <div class="task" v-for="task in tasks" :key="task.id">
+  <div v-show="tasksFiltered.length > 0">
+    <div class="task" v-for="task in tasksFiltered" :key="task.id">
       <h3>{{ task.name }}</h3>
       <p>{{ task.description }}</p>
       <p>Echéance : {{ convertCase(task.temporality) }}</p>
