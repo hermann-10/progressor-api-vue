@@ -29,11 +29,11 @@
     ><br />
     <!-- v-bind:value="" -->
     <!-- le ":value" permet de récupérer la valeur et non le string entre les guimets  -->
-    <button>Créer</button>
+    <button :disabled="!isFormValid">Créer</button>
   </form>
 </template>
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 
 export default {
   name: "Form",
@@ -86,6 +86,18 @@ export default {
       txtName.value.focus();
     });
 
+    const isFormValid = computed(()=> {
+      if(
+        name.value !== '' &&
+        description.value !== '' &&
+        temporality.value !== ''
+      ){
+        return true;
+      } else {
+        return false;
+      }
+    });
+
     //return { name: name, description: description, } // Utilisation de la forme raccourcie ci-dessous
     return {
       name,
@@ -93,7 +105,8 @@ export default {
       temporalityTypes,
       temporality,
       createTask,
-      txtName
+      txtName,
+      isFormValid
     }; //j'exporte createTask() également pour qu'elle soit accessible dans le template
   }
 };
