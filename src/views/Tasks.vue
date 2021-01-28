@@ -24,6 +24,9 @@
       <h3>{{ task.name }}</h3>
       <p>{{ task.description }}</p>
       <p>Echéance : {{ convertCase(task.temporality) }}</p>
+      <div>
+        <button class="small" @click="() => deleteTask(task.id)">Supprimer</button>
+      </div>
     </div>
   </div>
 </template>
@@ -63,6 +66,12 @@ export default {
       }
     }
 
+    function deleteTask(id){
+      tasksService.deleteTask(id);
+      tasks.value = tasksService.read();
+      filter();
+    }
+
     watch(selectedTemporality, (newValue, oldValue) => {
       console.log('newValue: ', newValue, '|' ,'oldValue: ', oldValue);
       if(newValue !== ''){
@@ -74,7 +83,7 @@ export default {
     });
 
     //return { tasks,letters, tasksFiltered, convertCase, filter };
-    return { tasks,tasksFiltered, convertCase, letters, selectedTemporality, filter }; //On rend ici les éléments crés accesibles au template
+    return { tasks,tasksFiltered, convertCase, letters, selectedTemporality, filter, deleteTask }; //On rend ici les éléments crés accesibles au template
   }
 };
 </script>
@@ -89,5 +98,9 @@ export default {
 .radio-filters{
   display: flex;
   justify-content: center;
+}
+
+.small{
+  width: 90px;
 }
 </style>
